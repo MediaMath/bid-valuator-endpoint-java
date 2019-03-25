@@ -39,19 +39,27 @@ import static spark.Spark.*;
  * <h1>Bid Valuator Sample Endpoint</h1>
  *<p>
  * This endpoint exposes two routes, and will listen on all available interfaces on port 4567:
+ * </p>
  * <ul>
  *     <li><b>/valuate</b>: Bid valuator will send bid requests here, and will use the response to place a bid</li>
  *     <li><b>/healthz</b>: Simple health check, returns 200 OK, used for health monitoring</li>
  * </ul>
- *</p>
+ * <p>
+ *     Responses will be logged by MediaMath to the storage bucket configured for your endpoint ONLY if the
+ *     X-Log-Request header is returned in the response, or in the case of a timeout waiting for a response
+ *     from your endpoint.
+ *
+ *     This sample implementation returns this header {@link Endpoint#logChance}% of the time
+ * </p>
  * <p>
  * /valuate will accept bid requests in one of the following formats, depending on the Content-Type header:
- *</p>
+ * </p>
  * <ul>
  *     <li>Protobuf binary encoding (application/protobuf) <b><i>This is the only format Bid Valuator will send right now, the others are for debugging or testing purposes</i></b></li>
  *     <li>JSON (application/json)</li>
  *     <li>Protbuf Text Encoding (text/protobuf)</li>
  * </ul>
+ *
  *<p>
  * See {@link Endpoint#valuate(OpenRtb.BidRequest)} for details on the response format and behavior
  * </p>
@@ -63,6 +71,15 @@ public class Endpoint {
      * The endpoint will use this as the lower bound of the randomly generated CPM
      */
     public static double minCPM = 0.01;
+    /**
+     * Header name to send if response should be logged
+     */
+    public static final String LogRequestHeader = "X-Log-Request";
+    /**
+     * Percentage chance (0-100) that a particular response will be logged by Bid Valuator at the MediaMath side
+     * by sending back the X-Log-Request header
+    */
+    public static int logChance = 25;
     /**
      * The endpoint will use this as the upper bound of the randomly generated CPM
      */
@@ -104,6 +121,11 @@ public class Endpoint {
                 halt(HttpStatus.SC_INTERNAL_SERVER_ERROR, msg);
             }
             res.type("application/json");
+            if(shouldLog()) {
+                // Responses will NOT be logged to the bucket configured in your Bid Valuator settings unless this
+                // header is sent in the response
+                res.header(LogRequestHeader, "true");
+            }
             return valuate(bidRequest);
         }, new ResponseJsonTransformer());
         get("/healthz", (req, res) -> {
@@ -111,6 +133,18 @@ public class Endpoint {
             awaitInitialization();
             return "OK";
         });
+    }
+
+    /**
+     * Determines, with a {@link Endpoint#getLogChance()} % chance, whether or not a particular response should be logged
+     * @return Whether or not the response should be logged by Bid Valuator on the MediaMath side
+     */
+    static boolean shouldLog() {
+        return (random.nextFloat() <= (getLogChance()/100.0));
+    }
+
+    static int getLogChance() {
+        return logChance;
     }
 
     /**
