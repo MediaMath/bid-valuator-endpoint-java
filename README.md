@@ -43,7 +43,7 @@ image can be used by `docker run` to launch the containerized endpoint.
 
 To build the docker image via jib:
 
-    $ ./gradlew jib
+    $ ./gradlew jibDockerBuild
     
 To run the service in the foreground, forwarding local port 4567 to container port 4567 (replace _my-bid-valuator-endpoint_
 with your own image name if you changed it):
