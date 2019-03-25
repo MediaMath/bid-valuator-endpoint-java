@@ -1,0 +1,344 @@
+{  
+   "id":"5bf46a74000e24150ab388d1a70070b6",
+   "imp":[  
+      {
+         "id": "2",
+         "banner":{  
+            "w":300,
+            "h":250,
+            "pos":1,
+            "battr":[  
+               1,
+               6
+            ]
+         },
+         "instl": 0,
+         "bidfloor":12.219999999999999,
+         "secure": 1,
+         "pmp":{  
+            "private_auction":0,
+            "deals":[  
+               {  
+                  "id":"549644393846517582",
+                  "bidfloor":12.219999999999999,
+                  "at":2
+               }
+            ]
+         }
+      }
+   ],
+   "app":{  
+      "id":"289560144",
+      "bundle":"289560144",
+      "name":"Pregnancy & Baby | What to Expect",
+      "domain":"http://itunes.apple.com/app",
+      "cat":[  
+         "401"
+      ],
+      "publisher":{  
+         "id":"1976852001"
+      }
+   },
+   "device":{  
+      "lmt":0,
+      "ua":"Mozilla/5.0 (iPhone; CPU iPhone OS 12_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16B92",
+      "ip":"000.000.000.000",
+      "geo":{  
+         "lat":42,
+         "lon":-42
+      },
+      "language":"en",
+      "js":0,
+      "devicetype":4,
+      "ifa":"XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXX"
+   },
+   "user":{  
+      "id":"XXXXXXXXXXXX",
+      "buyeruid":"XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXX"
+   },
+   "wseat":[  
+      "31113142998",
+      "5649964118",
+      "40181815839",
+      "12762930794",
+      "47011581968",
+      "3092649364",
+      "10853098151",
+      "10783038761",
+      "3610285140",
+      "17702821048",
+      "51510738668",
+      "3534776366",
+      "16024135205",
+      "3006901581",
+      "3901388838",
+      "45214736296",
+      "5877353383",
+      "29807482158",
+      "21268939158",
+      "14786330367",
+      "15912346968",
+      "42314532379",
+      "22840263062",
+      "43298977666",
+      "11508320488",
+      "5760106791",
+      "3971013429",
+      "11718993907",
+      "15437452256",
+      "39885382245",
+      "14456990233",
+      "48982931248",
+      "3271895764",
+      "7183633132",
+      "18874013582",
+      "40971531739",
+      "43144088308",
+      "9405180985",
+      "9440267792",
+      "3976282130",
+      "4192916754",
+      "25938814977",
+      "4348394926",
+      "6271505710",
+      "45163592587",
+      "36101363996",
+      "16046012288",
+      "32186819938",
+      "35289601663",
+      "8070550464",
+      "3899147268",
+      "47723858814",
+      "3333340592",
+      "16848029211",
+      "34748071809",
+      "5062028607",
+      "3614890145",
+      "4446196523",
+      "4467495465",
+      "52663404361",
+      "10500160390",
+      "6516780578",
+      "29297559190",
+      "3043901806",
+      "39604319991",
+      "6986995588",
+      "5735719922",
+      "21544322721",
+      "20819127566",
+      "50856395431",
+      "44450591893",
+      "33152559773",
+      "29701948683",
+      "7221473773",
+      "4784651162",
+      "11977655337",
+      "4675095434",
+      "12089481885",
+      "20035004448",
+      "41495992218",
+      "44714571244",
+      "3649946961",
+      "3564258421",
+      "5455479825",
+      "30061326753",
+      "5963559108",
+      "1762669852"
+   ],
+   "ext": {
+   "header": {
+      "type": 0
+   },
+   "mm_ext": {
+      "AllowedLatency": 20,
+      "SelectedEntities": [
+         {
+            "CampaignID": "516365",
+            "Pacing": {
+               "PI": 361,
+               "PacingIntervalPercentThru": 50
+            },
+            "CompanionData": {
+               "StrategyID": "3490748",
+               "StrategyGoalType": "CPC",
+               "StrategyGoalValue": "300000",
+               "PmpFloorPriceInMicro": "0",
+               "CrossDeviceCklessFlags": "0",
+              "AIBTargets":[{"SegmentName":"mm:1227319","Recency":65943,"Frequency":1}],
+               "Creatives": [
+                  {
+                     "ID": "6185828",
+                     "Height": 250,
+                     "Width": 300
+                  }
+               ],
+               "PMPDeals":[{"ID":"334143","IsGlobal":false,"MinBidPrice":16.200}],
+               "MarketDeals":[{"MarketExchangeID":"1000","PMPDeals":[{"ID":"297092","IsGlobal":false,"MinBidPrice":5.500}]}],
+               "TargetValues": {
+                  "27": {
+                     "1027": {
+                        "matched": [
+                        ]
+                     }
+                  },
+                  "28": {
+                     "3": {
+                     },
+                     "6": {
+                     },
+                     "2": {
+                     },
+                     "1": {
+                     }
+                  },
+                  "24": {
+                     "1": {
+                        "targeted": [
+                        ],
+                        "untargeted": [
+                           "br_in-App"
+                        ]
+                     }
+                  },
+                  "25": {
+                     "1": {
+                        "targeted": [
+                        ],
+                        "untargeted": [
+                           "os_iOS:ve_12.1.0"
+                        ]
+                     }
+                  },
+                  "29": {
+                     "1": {
+                        "targeted": [
+                        ],
+                        "untargeted": [
+                           "ma_Apple:mo_iPhone"
+                        ]
+                     }
+                  },
+                  "26": {
+                     "1": {
+                        "targeted": [
+                        ],
+                        "untargeted": [
+                           "fo_Smartphone"
+                        ]
+                     }
+                  }
+               }
+            }
+         },
+         {
+            "CampaignID": "516365",
+            "Pacing": {
+               "PI": 203,
+               "PacingIntervalPercentThru": 50
+            },
+            "CompanionData": {
+               "StrategyID": "3490750",
+               "StrategyGoalType": "CPC",
+               "StrategyGoalValue": "300000",
+               "PmpFloorPriceInMicro": "0",
+               "CrossDeviceCklessFlags": "0",
+               "Creatives": [
+                  {
+                     "ID": "6185828",
+                     "Height": 250,
+                     "Width": 300
+                  }
+               ],
+               "TargetValues": {
+                  "27": {
+                     "1027": {
+                        "matched": [
+                        ]
+                     }
+                  },
+                  "28": {
+                     "3": {
+                     },
+                     "6": {
+                     },
+                     "2": {
+                     },
+                     "1": {
+                     }
+                  },
+                  "24": {
+                     "1": {
+                        "targeted": [
+                        ],
+                        "untargeted": [
+                           "br_in-App"
+                        ]
+                     }
+                  },
+                  "25": {
+                     "1": {
+                        "targeted": [
+                        ],
+                        "untargeted": [
+                           "os_iOS:ve_12.1.0"
+                        ]
+                     }
+                  },
+                  "29": {
+                     "1": {
+                        "targeted": [
+                        ],
+                        "untargeted": [
+                           "ma_Apple:mo_iPhone"
+                        ]
+                     }
+                  },
+                  "26": {
+                     "1": {
+                        "targeted": [
+                        ],
+                        "untargeted": [
+                           "fo_Smartphone"
+                        ]
+                     }
+                  }
+               }
+            }
+         }
+      ],
+      "BidFeature": {
+         "CountryID": "60231",
+         "DmaID": "80040",
+         "RegionID": "70034",
+         "IspID": "30001",
+         "ConnSpeed": "20003",
+         "PublisherID": "1976852001",
+         "SiteID": "1285284662",
+         "ChannelID": "401",
+         "OSID": "40009",
+         "ExchangeID": "4",
+         "AppID": "289560144",
+         "Interstitial": "0",
+         "IdVintage": "999",
+         "FoldPosition": "1",
+         "BrowserID": "40012",
+         "DeviceID": "41000",
+         "BrowserLangID": "28261",
+         "ChannelType": "8",
+         "UUID": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXX",
+         "CID": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXXX",
+         "UserSessionFreq": "99",
+         "UserTime": {
+            "WeekDay": 2,
+            "Hour": 15,
+            "Minute": 11
+         },
+         "ViewPrcnt": "60",
+         "HistCtr": "-1.000",
+         "VideoCompletion": "-1.000",
+         "IsPixelTarget": "0",
+         "BidInvBrowserType": "50002"
+      }
+   }
+}
+}
