@@ -30,11 +30,11 @@ public class ResponseJsonTransformerTest {
     static Stream<Response> responseProvider() {
         return Stream.of(
                 // With Deal
-                new Response("12345", "5678", 0.1234, "7890", "abc123"),
+                new Response("12345", "5678", 0.1234, "7890", "abc123", "ResponseJsonTransformerTest"),
                 // No/Null Deal ID
-                new Response("12345", "5678", 0.1234, "7890", null),
+                new Response("12345", "5678", 0.1234, "7890", null, "ResponseJsonTransformerTest"),
                 //Empty Deal ID
-                new Response("12345", "5678", 0.1234, "7890", "")
+                new Response("12345", "5678", 0.1234, "7890", "", "ResponseJsonTransformerTest")
         );
     }
 

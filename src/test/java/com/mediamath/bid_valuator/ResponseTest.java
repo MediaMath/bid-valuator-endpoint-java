@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 public class ResponseTest {
     @Test
     public void testResponseCopy() {
-        Response r1 = new Response("123", "456", 0.1234, "789", "");
+        Response r1 = new Response("123", "456", 0.1234, "789", "", "ResponseTest");
         Response r2 = new Response(r1);
         assertEquals(r1, r2);
         r2.setPmpDealID("This should not change r1");

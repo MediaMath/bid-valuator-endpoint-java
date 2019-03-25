@@ -76,6 +76,10 @@ public class Endpoint {
      */
     public static final String LogRequestHeader = "X-Log-Request";
     /**
+     * The model ID to return in the response.  This is used only for logging purposes.
+     */
+    public static final String ModelID = "Bid-Valuator-Sample-Endpoint-Java";
+    /**
      * Percentage chance (0-100) that a particular response will be logged by Bid Valuator at the MediaMath side
      * by sending back the X-Log-Request header
     */
@@ -207,7 +211,7 @@ public class Endpoint {
             logger.debug("No Device WURFL data found for selected strategy, not altering bid");
         }
 
-        Response response = new Response(selectedStrategy.getCampaignID(), companionData.getStrategyID(), cpm, selectedCreativeID, selectedDealID);
+        Response response = new Response(selectedStrategy.getCampaignID(), companionData.getStrategyID(), cpm, selectedCreativeID, selectedDealID, ModelID);
         logger.info("Returning bid of {}", cpm);
         MDC.clear();
         return response;
