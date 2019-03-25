@@ -35,17 +35,20 @@ public final class Response {
     private String creativeID;
     @SerializedName("PmpDealID")
     private String pmpDealID = null;
+    @SerializedName("ModelID")
+    private String modelID = null;
 
     public Response() {
 
     }
 
-    public Response(String campaignID, String strategyID, double cpm, String creativeID, String pmpDeal) {
+    public Response(String campaignID, String strategyID, double cpm, String creativeID, String pmpDeal, String modelID) {
         setCampaignID(campaignID);
         setStrategyID(strategyID);
         setCpm(cpm);
         setCreativeID(creativeID);
         setPmpDealID(pmpDeal);
+        setModelID(modelID);
     }
 
     //Copy constructor
@@ -55,16 +58,18 @@ public final class Response {
         setCpm(other.getCpm());
         setCreativeID(other.getCreativeID());
         setPmpDealID(other.getPmpDealID());
+        setModelID(other.getModelID());
     }
 
     @Override
     public String toString() {
         return "Response{" +
                 "campaignID='" + campaignID + '\'' +
-                " strategyID='" + strategyID + '\'' +
+                ", strategyID='" + strategyID + '\'' +
                 ", cpm=" + cpm +
                 ", creativeID='" + creativeID + '\'' +
                 ", pmpDealID='" + pmpDealID + '\'' +
+                ", modelID='" + modelID + '\'' +
                 '}';
     }
 
@@ -109,7 +114,9 @@ public final class Response {
         this.creativeID = creativeID;
     }
 
-    public String getPmpDealID() { return pmpDealID; }
+    public String getPmpDealID() {
+        return pmpDealID;
+    }
 
     public void setPmpDealID(String pmpDealID) {
         this.pmpDealID = pmpDealID;
@@ -122,4 +129,13 @@ public final class Response {
     public void setStrategyID(String strategyID) {
         this.strategyID = strategyID;
     }
+
+    public String getModelID() {
+        return modelID;
+    }
+
+    public void setModelID(String modelID) {
+        this.modelID = modelID;
+    }
+
 }
