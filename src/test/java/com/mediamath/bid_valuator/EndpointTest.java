@@ -17,6 +17,7 @@
 package com.mediamath.bid_valuator;
 
 import com.google.openrtb.OpenRtb;
+import org.apache.http.Header;
 import org.apache.http.HeaderElement;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -24,6 +25,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -39,6 +41,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 public class EndpointTest {
@@ -68,6 +71,12 @@ public class EndpointTest {
         serverThread.run();
     }
 
+    @BeforeEach
+    void setAlwaysBid() { Endpoint.setBidChance(100); }
+
+    @BeforeEach
+    void setAlwaysLog() { Endpoint.setLogChance(100); }
+
     @AfterAll
     static void stopServer() {
         serverThread.stop();
@@ -82,11 +91,13 @@ public class EndpointTest {
         assertThat(response.getStatusLine().getStatusCode())
                 .isEqualTo(HttpStatus.SC_OK);
         HeaderElement[] elements = response.getEntity().getContentType().getElements();
-        assertThat(response.getEntity().getContentType().getElements())
+        assertThat(elements)
                 .extracting(HeaderElement::getName)
                 .contains("application/json");
         assertThat(Helper.getResponse(response))
                 .isNotNull();
+        assertThat(response.getHeaders(Endpoint.LogRequestHeader))
+                .isNotEmpty();
     }
 
     @Test
@@ -149,4 +160,42 @@ public class EndpointTest {
             assertThat(response.getPmpDealID()).isNullOrEmpty();
         }
     }
+
+    @Test
+    void testShouldNotBidReturns204() throws IOException {
+        Endpoint.setBidChance(0);
+        HttpResponse response = Helper.sendPost(Helper.binaryProtoFromText(Helper.bidRequestProtoTextNoDeal),
+                "application/protobuf");
+        assertThat(response.getStatusLine().getStatusCode())
+                .isEqualTo(HttpStatus.SC_NO_CONTENT);
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints={0, 100})
+    void testLogHeaderSent(int chance) throws IOException {
+        Endpoint.setLogChance(chance);
+        HttpResponse response = Helper.sendPost(Helper.binaryProtoFromText(Helper.bidRequestProtoTextNoDeal),
+                "application/protobuf");
+        Header[] logHeaders = response.getHeaders(Endpoint.LogRequestHeader);
+        if(chance == 0) {
+            assertThat(logHeaders).isEmpty();
+        }
+        else if(chance == 100) {
+            assertThat(logHeaders).isNotEmpty();
+        }
+    }
+
+    @Test
+    void testInvalidLogChanceException() {
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> Endpoint.setLogChance(-50))
+                .withMessageContaining("not a valid percentage");
+    }
+
+    @Test
+    void testInvalidBidChanceExceptoion() {
+        assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> Endpoint.setBidChance(999))
+                .withMessageContaining("not a valid percentage");
+    }
+
+
 }

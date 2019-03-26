@@ -65,6 +65,8 @@ import static spark.Spark.*;
  * </p>
  */
 public class Endpoint {
+    // TODO: Making everything static is pretty ugly and not buying much in terms of remaining simple,
+    //  should extract this all out into an actual instantiable class
     private static TextFormat.Parser textFormatParser = TextFormat.getParser();
     private static JsonFormat.Parser jsonFormatParser = JsonFormat.parser();
     /**
@@ -85,6 +87,10 @@ public class Endpoint {
     */
     public static int logChance = 25;
     /**
+     * The percentage chance (0-100) that an inbound request will be bid on
+     */
+    public static int bidChance = 95;
+    /**
      * The endpoint will use this as the upper bound of the randomly generated CPM
      */
     public static double maxCPM = 0.5;
@@ -94,7 +100,16 @@ public class Endpoint {
     public static void main(String[] args) {
         post("/valuate", (req, res) -> {
             MDC.put("path", req.pathInfo());
+            // Responses back to bid valuator are in JSON
             res.type("application/json");
+
+            // If you do NOT want to bid on any opportunities in a given request, you may send back
+            // an HTTP 204 NO CONTENT. Alternatively you may send back a response with a CPM of 0
+            // Just as an example, we will randomly decide not to bid on things
+            if(!shouldBid()) {
+                halt(HttpStatus.SC_NO_CONTENT);
+            }
+            // Prepare the OpenRtb BidRequest builder to parse the inbound request
             OpenRtb.BidRequest bidRequest = null;
             OpenRtb.BidRequest.Builder builder = OpenRtb.BidRequest.newBuilder();
             try {
@@ -150,6 +165,51 @@ public class Endpoint {
     static int getLogChance() {
         return logChance;
     }
+
+    /**
+     * sets the percentage chance (0-100) that a particular response will be logged by sending back the
+     * {@link Endpoint#LogRequestHeader} header
+     *
+     * @param logChance An integer 0-100
+     */
+    public static void setLogChance(int logChance) {
+        if(isValidPercentage(logChance)) {
+            Endpoint.logChance = logChance;
+        } else {
+            throw new IllegalArgumentException(logChance + " is not a valid percentage, must be between 0-100");
+        }
+
+    }
+
+    public static void setBidChance(int bidChance) {
+        if(isValidPercentage(bidChance)) {
+            Endpoint.bidChance = bidChance;
+        } else {
+            throw new IllegalArgumentException(bidChance + " is not a valid percentage, must be between 0-100");
+        }
+    }
+
+    /**
+     * Determines with a {@link Endpoint#getBidChance()} % chance that we should bid on a particular opportunity
+     * @return
+     */
+    static boolean shouldBid() {
+        return (random.nextFloat() <= (getBidChance()/100.0));
+    }
+
+    static int getBidChance() {
+        return bidChance;
+    }
+
+    /**
+     * Simply checks whether a given integer is a valid whole percentage between 0-100
+     * @param pct The number to be evaluated
+     * @return true/false depending on the validity of the number
+     */
+    private static boolean isValidPercentage(int pct) {
+        return (pct >= 0) && (pct <= 100);
+    }
+
 
     /**
      * Returns a bid valuator response with a made up CPM, and a randomly selected strategy, creative, and Deal.
