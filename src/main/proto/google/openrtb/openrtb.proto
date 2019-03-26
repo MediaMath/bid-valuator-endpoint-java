@@ -326,7 +326,7 @@ message BidRequest {
       repeated BannerAdType btype = 5 [packed = true];
 
       // Blocked creative attributes.
-      repeated CreativeAttribute battr = 6 [packed = true];
+      repeated int32 battr = 6 [packed = true];
 
       // Whitelist of content MIME types supported. Popular MIME types include,
       // but are not limited to "image/jpg", "image/gif" and
@@ -457,7 +457,7 @@ message BidRequest {
       optional int32 sequence = 9 [default = 1];
 
       // Blocked creative attributes.
-      repeated CreativeAttribute battr = 10 [packed = true];
+      repeated int32 battr = 10 [packed = true];
 
       // Maximum extended video ad duration, if extension is allowed.
       // If blank or 0, extension is not allowed. If -1, extension is allowed,
@@ -563,7 +563,9 @@ message BidRequest {
       optional int32 sequence = 6 [default = 1];
 
       // Blocked creative attributes.
-      repeated CreativeAttribute battr = 7 [packed = true];
+      // Changing this to an int32 rather than CreativeAttributes as extended data may come through that are not in the
+      // originally enumerated list
+      repeated int32 battr = 7 [packed = true];
 
       // Maximum extended video ad duration, if extension is allowed.
       // If blank or 0, extension is not allowed. If -1, extension is allowed,
@@ -652,7 +654,9 @@ message BidRequest {
       repeated APIFramework api = 3 [packed = true];
 
       // Blocked creative attributes.
-      repeated CreativeAttribute battr = 4 [packed = true];
+      // Changing this to an int32 rather than CreativeAttributes as extended data may come through that are not in the
+      // originally enumerated list
+      repeated int32 battr = 4 [packed = true];
 
       // Extensions.
       extensions 100 to 9999;
@@ -1396,7 +1400,9 @@ message BidResponse {
       repeated string cat = 15;
 
       // Set of attributes describing the creative.
-      repeated CreativeAttribute attr = 11 [packed = true];
+      // Changing this to an int32 rather than CreativeAttributes as extended data may come through that are not in the
+      // originally enumerated list
+      repeated int32 attr = 11 [packed = true];
 
       // API required by the markup if applicable.
       optional APIFramework api = 18;
