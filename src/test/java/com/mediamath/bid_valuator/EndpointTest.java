@@ -64,7 +64,19 @@ public class EndpointTest {
             );
         }
     }
-    static Thread serverThread = new Thread(new ServerRunner());
+
+    static class InvalidTestArgumentsProvider implements ArgumentsProvider {
+        @Override
+        public Stream<? extends Arguments> provideArguments(ExtensionContext context) throws IOException {
+            return Stream.of(
+                    arguments("This is not valid json!".getBytes(), "application/json"),
+                    arguments("Not valid json or valid protobuf text!".getBytes(), "text/protobuf"),
+                    arguments("Guess what? Also not valid!".getBytes(), "application/protobuf")
+            );
+        }
+    }
+
+    private static Thread serverThread = new Thread(new ServerRunner());
 
     @BeforeAll
     static void startServer() {
@@ -86,7 +98,7 @@ public class EndpointTest {
 
     @ParameterizedTest
     @ArgumentsSource(ValidTestArgumentsProvider.class)
-    void testValidRequestRequest(byte[] request, String contentType) throws IOException {
+    void testValidRequest(byte[] request, String contentType) throws IOException {
         HttpResponse response = Helper.sendPost(request, contentType);
         assertThat(response.getStatusLine().getStatusCode())
                 .isEqualTo(HttpStatus.SC_OK);
@@ -98,6 +110,14 @@ public class EndpointTest {
                 .isNotNull();
         assertThat(response.getHeaders(Endpoint.LogRequestHeader))
                 .isNotEmpty();
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(InvalidTestArgumentsProvider.class)
+    void testInvalidRequest(byte[] request, String contentType) throws IOException {
+        HttpResponse response = Helper.sendPost(request, contentType);
+        assertThat(response.getStatusLine().getStatusCode())
+                .isEqualTo(HttpStatus.SC_INTERNAL_SERVER_ERROR);
     }
 
     @Test

@@ -19,7 +19,7 @@ plugins {
     id 'application'
     id 'idea'
     id "com.google.protobuf" version "0.8.8"
-    id 'com.google.cloud.tools.jib' version '1.0.1'
+    id 'com.google.cloud.tools.jib' version '1.0.2'
 }
 
 group 'com.mediamath.bid_valuator'
@@ -50,13 +50,13 @@ dependencies {
         'com.sumologic.plugins.logback:sumologic-logback-appender:1.2',
         'ch.qos.logback.contrib:logback-jackson:0.1.5',
         'com.fasterxml.jackson.core:jackson-databind:2.9.8',
-        'ch.qos.logback.contrib:logback-json-classic:0.1.5'
+        'ch.qos.logback.contrib:logback-json-classic:0.1.5',
+        "org.apache.httpcomponents:httpclient:4.5.7"
     )
     testCompile (
         "org.junit.jupiter:junit-jupiter-engine:5.4.0",
         "org.assertj:assertj-core:3.9.1",
-        "commons-beanutils:commons-beanutils:1.9.3",
-        "org.apache.httpcomponents:httpclient:4.5.7"
+        "commons-beanutils:commons-beanutils:1.9.3"
     )
     testImplementation('org.junit.jupiter:junit-jupiter:5.4.1')
 }
