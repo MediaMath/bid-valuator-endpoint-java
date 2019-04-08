@@ -439,9 +439,7 @@ message BidRequest {
       // Bid object should include the attr array with an element of
       // 16 indicating skippable video.
 
-      // MM TODO: skippable IS NOT A VALID OPENRTB FIELD! This needs to be changed to 'skip'
-      // before release once bidder sends us 'skip' instead of 'skippable'
-      optional int32 skippable = 23;
+      optional int32 skip = 23;
 
       // Videos of total duration greater than this number of seconds
       // can be skippable; only applicable if the ad is skippable.

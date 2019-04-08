@@ -99,6 +99,7 @@ public class Endpoint {
 
     public static void main(String[] args) {
         post("/valuate", (req, res) -> {
+            MDC.clear();
             MDC.put("path", req.pathInfo());
             // Responses back to bid valuator are in JSON
             res.type("application/json");
@@ -116,18 +117,23 @@ public class Endpoint {
                 MDC.put("contentType", req.contentType());
                 // Bid Valuator only sends binary protobuf (with Content-Type: application/protobuf), but
                 // using the raw json or text protobuf encoding can be useful for testing and debugging
-                if(req.contentType().equals("application/json")) {
-                    jsonFormatParser.merge(new StringReader(req.body()), builder);
-                    bidRequest = builder.build();
-                } else if(req.contentType().equals("text/protobuf")){
-                    textFormatParser.merge(new StringReader(req.body()), builder);
-                    bidRequest = builder.build();
-                } else if(req.contentType().equals("application/protobuf")){
-                    bidRequest = OpenRtb.BidRequest.parseFrom(req.bodyAsBytes());
-                } else {
-                    String msg = "Content-Type " + req.contentType() + " is not supported";
-                    logger.error(msg);
-                    halt(HttpStatus.SC_NOT_IMPLEMENTED, msg);
+                switch (req.contentType()) {
+                    case "application/json":
+                        jsonFormatParser.merge(new StringReader(req.body()), builder);
+                        bidRequest = builder.build();
+                        break;
+                    case "text/protobuf":
+                        textFormatParser.merge(new StringReader(req.body()), builder);
+                        bidRequest = builder.build();
+                        break;
+                    case "application/protobuf":
+                        bidRequest = OpenRtb.BidRequest.parseFrom(req.bodyAsBytes());
+                        break;
+                    default:
+                        String msg = "Content-Type " + req.contentType() + " is not supported";
+                        logger.error(msg);
+                        halt(HttpStatus.SC_NOT_IMPLEMENTED, msg);
+                        break;
                 }
             } catch(IOException e) {
                 MDC.put("requestBody", req.body());
@@ -139,6 +145,7 @@ public class Endpoint {
                 logger.error(msg);
                 halt(HttpStatus.SC_INTERNAL_SERVER_ERROR, msg);
             }
+            MDC.put("unmarshaledBidRequest", bidRequest.toString());
             res.type("application/json");
             if(shouldLog()) {
                 // Responses will NOT be logged to the bucket configured in your Bid Valuator settings unless this
@@ -148,6 +155,7 @@ public class Endpoint {
             return valuate(bidRequest);
         }, new ResponseJsonTransformer());
         get("/healthz", (req, res) -> {
+            MDC.clear();
             MDC.put("path", req.pathInfo());
             awaitInitialization();
             return "OK";
