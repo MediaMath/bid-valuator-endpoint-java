@@ -26,6 +26,8 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import spark.utils.IOUtils;
 
 import java.io.*;
+import java.util.Collections;
+import java.util.Map;
 
 public class Helper {
     final static ClassLoader classLoader = Helper.class.getClassLoader();
@@ -53,12 +55,19 @@ public class Helper {
         return builder.build();
     }
 
-    static HttpResponse sendPost(byte[] contents, String contentType) throws IOException {
+    static HttpResponse sendPost(byte[] contents, String contentType, Map<String,String> headers) throws IOException {
         HttpPost request = new HttpPost(endpointURL + "/valuate");
+        for (Map.Entry<String,String> entry:headers.entrySet()) {
+            request.addHeader(entry.getKey(), entry.getValue());
+        }
         ByteArrayEntity body = new ByteArrayEntity(contents);
         request.addHeader("Content-Type", contentType);
         request.setEntity(body);
         return HttpClientBuilder.create().build().execute(request);
+    }
+
+    static HttpResponse sendPost(byte[] contents, String contentType) throws IOException {
+        return sendPost(contents, contentType, Collections.emptyMap());
     }
 
     static Response getResponse(HttpResponse response) throws IOException {

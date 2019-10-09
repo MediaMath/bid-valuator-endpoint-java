@@ -3058,6 +3058,8 @@ message MM_Ext {
     optional string BidInvBrowserType = 27;
     optional string CityID = 28;
     optional string Zip = 29;
+    optional string VideoSkippability = 30;
+    optional string VideoPlacementType = 31;
   }
   optional BidFeatureMsg BidFeature = 3;
 }
