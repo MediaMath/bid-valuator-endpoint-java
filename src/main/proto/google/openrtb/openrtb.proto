@@ -2978,7 +2978,7 @@ message MM_Ext {
     required string StrategyID = 1;
     required string StrategyGoalType = 2;
     required string StrategyGoalValue = 3;
-    optional double PmpFloorPriceInMicro = 4;
+    optional string PmpFloorPriceInMicro = 4;
     optional string CrossDeviceCklessFlags = 5;
     message AIBTarget {
       required string SegmentName = 1;
