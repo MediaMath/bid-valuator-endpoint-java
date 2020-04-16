@@ -88,7 +88,7 @@ public class Helper {
 
     static Response getResponse(HttpResponse response) throws IOException {
         Gson gson = new Gson();
-       return  gson.fromJson(new InputStreamReader(response.getEntity().getContent()), Response.class);
+        return  gson.fromJson(new InputStreamReader(response.getEntity().getContent()), Response.class);
     }
 
     static String getJsonBidRequest() throws IOException {
