@@ -17,6 +17,7 @@
 package com.mediamath.bid_valuator;
 
 import com.google.openrtb.OpenRtb;
+import winnotice.Winnotice;
 import com.google.protobuf.TextFormat;
 import com.google.protobuf.util.JsonFormat;
 import com.mediamath.bid_valuator.WURFL.Device;
@@ -154,6 +155,38 @@ public class Endpoint {
             }
             return valuate(bidRequest);
         }, new ResponseJsonTransformer());
+        post("/winnotice", (req, res) -> {
+            MDC.clear();
+            MDC.put("path", req.pathInfo());
+            
+            Winnotice.WinNotification winnotice = null;
+            Winnotice.WinNotification.Builder builder = Winnotice.WinNotification.newBuilder();
+
+            try {
+                MDC.put("contentType", req.contentType());
+                // Bid Valuator only sends binary protobuf (with Content-Type: application/protobuf), but
+                // using the raw json or text protobuf encoding can be useful for testing and debugging
+                switch (req.contentType()) {
+                    case "application/json":
+                        jsonFormatParser.merge(new StringReader(req.body()), builder);
+                        winnotice = builder.build();
+                        break;
+                    case "application/protobuf":
+                        winnotice = Winnotice.WinNotification.parseFrom(req.bodyAsBytes());
+                        break;
+                    default:
+                        String msg = "Content-Type " + req.contentType() + " is not supported";
+                        logger.error(msg);
+                        halt(HttpStatus.SC_NOT_IMPLEMENTED, msg);
+                        break;
+                }
+            } catch(IOException e) {
+                MDC.put("requestBody", req.body());
+                logger.error("Failed to unmarshal BidRequest: ", e);
+                halt(HttpStatus.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+            }
+            return "";
+        });
         get("/healthz", (req, res) -> {
             MDC.clear();
             MDC.put("path", req.pathInfo());

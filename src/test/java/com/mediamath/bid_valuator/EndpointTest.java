@@ -65,6 +65,16 @@ public class EndpointTest {
         }
     }
 
+    static class ValidTestArgumentsProviderWinNotice implements ArgumentsProvider {
+        @Override
+        public Stream<? extends Arguments> provideArguments(ExtensionContext context) throws IOException {
+            return Stream.of(
+                    arguments(Helper.getJsonWinNotice().getBytes(), "application/json"),
+                    arguments(Helper.binaryWinNotifyProtoFromText(Helper.winnotifyProtoText), "application/protobuf")
+            );
+        }
+    }
+
     static class InvalidTestArgumentsProvider implements ArgumentsProvider {
         @Override
         public Stream<? extends Arguments> provideArguments(ExtensionContext context) throws IOException {
@@ -112,6 +122,27 @@ public class EndpointTest {
                 .isNotEmpty();
     }
 
+    @ParameterizedTest
+    @ArgumentsSource(ValidTestArgumentsProviderWinNotice.class)
+    void testValidWinNoticeRequest(byte[] request, String contentType) throws IOException {
+        HttpResponse response = Helper.sendPostWinNotice(request, contentType);
+
+        System.out.print(".");
+        //logger.info("{}", response.getStatusLine().getStatusCode());
+
+        assertThat(response.getStatusLine().getStatusCode())
+                .isEqualTo(HttpStatus.SC_OK);
+        //logger.info("{}", response.getStatusLine().getStatusCode());
+        //HeaderElement[] elements = response.getEntity().getContentType().getElements();
+        //assertThat(elements)
+         //       .extracting(HeaderElement::getName)
+        //        .contains("application/json");
+        //assertThat(Helper.getResponse(response))
+        //        .isNotNull();
+        //assertThat(response.getHeaders(Endpoint.LogRequestHeader))
+        //        .isNotEmpty();
+    }
+    
     @ParameterizedTest
     @ArgumentsSource(InvalidTestArgumentsProvider.class)
     void testInvalidRequest(byte[] request, String contentType) throws IOException {
