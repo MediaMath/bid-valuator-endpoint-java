@@ -126,21 +126,8 @@ public class EndpointTest {
     @ArgumentsSource(ValidTestArgumentsProviderWinNotice.class)
     void testValidWinNoticeRequest(byte[] request, String contentType) throws IOException {
         HttpResponse response = Helper.sendPostWinNotice(request, contentType);
-
-        System.out.print(".");
-        //logger.info("{}", response.getStatusLine().getStatusCode());
-
         assertThat(response.getStatusLine().getStatusCode())
                 .isEqualTo(HttpStatus.SC_OK);
-        //logger.info("{}", response.getStatusLine().getStatusCode());
-        //HeaderElement[] elements = response.getEntity().getContentType().getElements();
-        //assertThat(elements)
-         //       .extracting(HeaderElement::getName)
-        //        .contains("application/json");
-        //assertThat(Helper.getResponse(response))
-        //        .isNotNull();
-        //assertThat(response.getHeaders(Endpoint.LogRequestHeader))
-        //        .isNotEmpty();
     }
     
     @ParameterizedTest
