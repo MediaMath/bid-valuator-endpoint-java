@@ -56,8 +56,8 @@ public class Helper {
         return builder.build();
     }
 
-    static HttpResponse sendPost(byte[] contents, String contentType, Map<String,String> headers) throws IOException {
-        HttpPost request = new HttpPost(endpointURL + "/valuate");
+    static HttpResponse sendPost(String endpoint, byte[] contents, String contentType, Map<String,String> headers) throws IOException {
+        HttpPost request = new HttpPost(endpointURL + endpoint);
         for (Map.Entry<String,String> entry:headers.entrySet()) {
             request.addHeader(entry.getKey(), entry.getValue());
         }
@@ -67,23 +67,8 @@ public class Helper {
         return HttpClientBuilder.create().build().execute(request);
     }
 
-    static HttpResponse sendPost(byte[] contents, String contentType) throws IOException {
-        return sendPost(contents, contentType, Collections.emptyMap());
-    }
-
-    static HttpResponse sendPostWinNotice(byte[] contents, String contentType, Map<String,String> headers) throws IOException {
-        HttpPost request = new HttpPost(endpointURL + "/winnotice");
-        for (Map.Entry<String,String> entry:headers.entrySet()) {
-            request.addHeader(entry.getKey(), entry.getValue());
-        }
-        ByteArrayEntity body = new ByteArrayEntity(contents);
-        request.addHeader("Content-Type", contentType);
-        request.setEntity(body);
-        return HttpClientBuilder.create().build().execute(request);
-    }
-
-    static HttpResponse sendPostWinNotice(byte[] contents, String contentType) throws IOException {
-        return sendPostWinNotice(contents, contentType, Collections.emptyMap());
+    static HttpResponse sendPost(String endpoint, byte[] contents, String contentType) throws IOException {
+        return sendPost(endpoint, contents, contentType, Collections.emptyMap());
     }
 
     static Response getResponse(HttpResponse response) throws IOException {

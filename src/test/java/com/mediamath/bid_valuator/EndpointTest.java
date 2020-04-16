@@ -109,7 +109,7 @@ public class EndpointTest {
     @ParameterizedTest
     @ArgumentsSource(ValidTestArgumentsProvider.class)
     void testValidRequest(byte[] request, String contentType) throws IOException {
-        HttpResponse response = Helper.sendPost(request, contentType);
+        HttpResponse response = Helper.sendPost("/valuate", request, contentType);
         assertThat(response.getStatusLine().getStatusCode())
                 .isEqualTo(HttpStatus.SC_OK);
         HeaderElement[] elements = response.getEntity().getContentType().getElements();
@@ -125,7 +125,7 @@ public class EndpointTest {
     @ParameterizedTest
     @ArgumentsSource(ValidTestArgumentsProviderWinNotice.class)
     void testValidWinNoticeRequest(byte[] request, String contentType) throws IOException {
-        HttpResponse response = Helper.sendPostWinNotice(request, contentType);
+        HttpResponse response = Helper.sendPost("/winnotice", request, contentType);
         assertThat(response.getStatusLine().getStatusCode())
                 .isEqualTo(HttpStatus.SC_OK);
     }
@@ -133,7 +133,7 @@ public class EndpointTest {
     @ParameterizedTest
     @ArgumentsSource(InvalidTestArgumentsProvider.class)
     void testInvalidRequest(byte[] request, String contentType) throws IOException {
-        HttpResponse response = Helper.sendPost(request, contentType);
+        HttpResponse response = Helper.sendPost("/valuate", request, contentType);
         assertThat(response.getStatusLine().getStatusCode())
                 .isEqualTo(HttpStatus.SC_INTERNAL_SERVER_ERROR);
     }
@@ -149,7 +149,7 @@ public class EndpointTest {
 
     @Test
     void testUnknownContentType() throws IOException {
-        HttpResponse response = Helper.sendPost(Helper.getJsonBidRequest().getBytes(), "bad/content/type");
+        HttpResponse response = Helper.sendPost("/valuate", Helper.getJsonBidRequest().getBytes(), "bad/content/type");
         assertThat(response.getStatusLine().getStatusCode())
                 .isEqualTo(HttpStatus.SC_NOT_IMPLEMENTED);
     }
@@ -157,7 +157,7 @@ public class EndpointTest {
     @ParameterizedTest
     @ValueSource(strings={"application/json", "text/protobuf", "application/protobuf"})
     void testInvalidBidRequest(String contentType) throws IOException {
-        HttpResponse response = Helper.sendPost("This is not a real bid request".getBytes(), contentType);
+        HttpResponse response = Helper.sendPost("/valuate", "This is not a real bid request".getBytes(), contentType);
         assertThat(response.getStatusLine().getStatusCode())
                 .isEqualTo(HttpStatus.SC_INTERNAL_SERVER_ERROR);
     }
@@ -202,7 +202,7 @@ public class EndpointTest {
     @Test
     void testShouldNotBidReturns204() throws IOException {
         Endpoint.setBidChance(0);
-        HttpResponse response = Helper.sendPost(Helper.binaryProtoFromText(Helper.bidRequestProtoTextNoDeal),
+        HttpResponse response = Helper.sendPost("/valuate", Helper.binaryProtoFromText(Helper.bidRequestProtoTextNoDeal),
                 "application/protobuf");
         assertThat(response.getStatusLine().getStatusCode())
                 .isEqualTo(HttpStatus.SC_NO_CONTENT);
@@ -212,7 +212,7 @@ public class EndpointTest {
     @ValueSource(ints={0, 100})
     void testLogHeaderSent(int chance) throws IOException {
         Endpoint.setLogChance(chance);
-        HttpResponse response = Helper.sendPost(Helper.binaryProtoFromText(Helper.bidRequestProtoTextNoDeal),
+        HttpResponse response = Helper.sendPost("/valuate", Helper.binaryProtoFromText(Helper.bidRequestProtoTextNoDeal),
                 "application/protobuf");
         Header[] logHeaders = response.getHeaders(Endpoint.LogRequestHeader);
         if(chance == 0) {
