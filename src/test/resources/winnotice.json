@@ -1,0 +1,13 @@
+{
+    "ExchangeAuctionID": 1,
+    "AuctionID": 2,
+    "BidPriceCpm": 3.1,
+    "ClearPriceCpm": 4.1,
+    "TotalSpend": 5.1,
+    "MmUuid": "6",
+    "AdvertiserID": 7,
+    "CampaignID": 8,
+    "StrategyID": 9,
+    "CreativeID": 10,
+    "BidTimestamp": "11"
+}

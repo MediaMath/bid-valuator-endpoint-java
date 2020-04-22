@@ -1,0 +1,18 @@
+syntax = "proto2";
+
+option java_outer_classname = "Winnotice";
+option go_package = "winnoticepb";
+
+message WinNotification {
+    optional string ExchangeAuctionID = 1;
+    optional int64 AuctionID = 2;
+    optional double BidPriceCpm = 3;
+    optional double ClearPriceCpm = 4;
+    optional double TotalSpend = 5;
+    optional string MmUuid = 6;
+    optional int64 AdvertiserID = 7;
+    optional int64 CampaignID = 8;
+    optional int64 StrategyID = 9;
+    optional int64 CreativeID = 10;
+    optional string BidTimestamp = 11;
+}
