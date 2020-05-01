@@ -1,7 +1,7 @@
 syntax = "proto2";
 
 option java_outer_classname = "Winnotice";
-option go_package = "winnoticepb";
+package com.mediamath.winnotice;
 
 message WinNotification {
     optional string ExchangeAuctionID = 1;

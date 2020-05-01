@@ -61,7 +61,7 @@ message BidRequest {
 
   // Auction type, where 1 = First Price, 2 = Second Price Plus.
   // Exchange-specific auction types can be defined using values > 500.
-  optional AuctionType at = 7 [default = SECOND_PRICE];
+  optional AuctionType at = 7 [default = UNKNOWN_AUCTION_TYPE];
 
   // Maximum time in milliseconds to submit a bid to avoid timeout.
   // This value is commonly communicated offline.

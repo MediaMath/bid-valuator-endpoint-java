@@ -17,7 +17,7 @@
 package com.mediamath.bid_valuator;
 
 import com.google.openrtb.OpenRtb;
-import winnotice.Winnotice;
+import com.mediamath.winnotice.Winnotice;
 import com.google.protobuf.TextFormat;
 import com.google.protobuf.util.JsonFormat;
 import com.mediamath.bid_valuator.WURFL.Device;

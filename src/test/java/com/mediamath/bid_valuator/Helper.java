@@ -18,7 +18,7 @@ package com.mediamath.bid_valuator;
 
 import com.google.gson.Gson;
 import com.google.openrtb.OpenRtb;
-import winnotice.Winnotice;
+import com.mediamath.winnotice.Winnotice;
 import com.google.protobuf.TextFormat;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
